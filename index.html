@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Snakes</title>
+		<link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+        <style>
+			body{
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+			canvas{
+				cursor: pointer;
+			}
+        </style>
+    </head>
+    <body style="text-align: center">
+        <canvas id="myCanvas"></canvas>
+		<script src="js/screens.js"></script>
+		<script src="js/snake.js"></script>
+		<script src="js/powerup.js"></script>
+		<script src="js/vars.js"></script>
+		<script src="js/functions.js"></script>
+		<script src="js/userinput.js"></script>
+    </body>
+    <script>
+		function f_init(){
+			if (g_soundStatus == null){
+				// create localstorage item
+				localStorage.setItem('snake_soundStatus', true);
+				g_soundStatus = true;
+			}
+			g_snake = [new c_snake(200, g_myCanvas.height/2, 10, 4, g_snakeRadius, [255, 0, 102], [0, 102, 255]),
+			new c_snake(g_myCanvas.width - 200, g_myCanvas.height/2, 10, 4, g_snakeRadius, [86, 238, 225],  [176, 255, 39])];
+			g_snake[0].m_createBody();
+			g_snake[1].m_createBody();
+			f_spawnNewpowerUp();
+		}
+		
+		function f_gameLoop(){
+			f_manageTime();
+			f_handleUserInput();
+			f_handleRestart();
+			f_moveObjects();
+			f_checkCollison();
+			f_checkIfGameOver();
+			f_clearScreen();
+			f_drawObjects();
+		}
+		f_init();
+		var g_gameLoop = setInterval(f_gameLoop, g_timeInterval)
+    </script>
+</html>
